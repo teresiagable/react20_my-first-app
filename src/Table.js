@@ -2,40 +2,35 @@ import React, { Component } from "react";
 import TableRow from "./TableRow";
 
 class Table extends Component {
-  constructor() {
-    super();
+  state = {
+    personal: [
+      { name: "Stina", role: "Systemtekniker" },
+      { name: "Nisse", role: "Programmerare" },
+    ],
+    lon: "",
+  };
 
-    this.state = {
-      personal: [
-        { name: "Stina", role: "Systemtekniker" },
-        { name: "Nisse", role: "Programmerare" },
-      ],
-      usernamn:""
-    };
-    this.addRow = this.addRow.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+  addRow = (e) => {
+    let newPersonal = { name: "firstname", role: "jobtitle" };
 
-  }
+    console.log("addRow",this.state);
 
-  addRow(e) {
-    let newPersonal = this.state.personal;
+    this.setState((state)=>({
+      personal: [newPersonal, ...state.personal],
+    }));
+  };
 
-    newPersonal.push({ name: ".", role: "." });
+  handleChange = (e) => {
+    this.addRow();
+    let thelon = e.target.value;
+    console.log("handleChange", this.state);
+    this.setState((state)=>({ 
+            //personal: [ ...state.personal ],
+            lon: thelon 
+          }));
+  };
 
-    this.setState({ personal: newPersonal });
-
-  }
-
-  handleChange(e){
-    let thename = e.target.value;
-
-    console.log("newusernamn", this.state.usernamn)
-    this.setState({ usernamn:thename})
-
-
-  }
-
- render() {
+  render() {
     return (
       <React.Fragment>
         <table border="1">
@@ -59,9 +54,13 @@ class Table extends Component {
           </tbody>
         </table>
         <button onClick={this.addRow}>Lägg till rad</button> <br></br>
-        <input type="text" id="usernamn" name="usernamn" onChange={this.handleChange} ></input>
-
-          <h1>{this.state.usernamn}</h1>
+        <input
+          type="text"
+          id="usernamn"
+          name="usernamn"
+          onChange={this.handleChange}
+        ></input>
+        <h1>{this.state.lon}</h1>
       </React.Fragment>
     );
   }
